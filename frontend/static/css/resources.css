@@ -1,0 +1,18 @@
+/* frontend/static/css/resource.css */
+
+/* Style for resource tracking section */
+.resource-section {
+    margin-top: 20px;
+}
+
+/* Style for resource cards */
+.resource-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.resource-card h3 {
+    margin-top: 0;
+}

@@ -1,0 +1,27 @@
+/* frontend/static/css/farm.css */
+
+/* Style for farm management section */
+.farm-section {
+    margin-top: 20px;
+}
+
+/* Style for farm cards */
+.farm-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.farm-card h3 {
+    margin-top: 0;
+}
+
+/* Style for cropped and uncropped status */
+.cropped-status {
+    color: #4CAF50; /* Green color for cropped */
+}
+
+.uncropped-status {
+    color: #F44336; /* Red color for uncropped */
+}

@@ -1,0 +1,90 @@
+<!-- frontend/templates/farm.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmland Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/farm.css') }}">
+</head>
+<body>
+    <h1>Farmland Management</h1>
+    
+    <!-- Farm Cards -->
+    <div class="farm-section" id="farm-section">
+        <!-- Add farm cards dynamically -->
+    </div>
+
+    <!-- Button to add more farm cards -->
+    <button onclick="addFarmCard()">Add Farm</button>
+
+    <!-- JavaScript for farm management -->
+    <script>
+        // Function to update farm status
+        function updateFarmStatus(status, elementClass, farmId) {
+            var elements = document.getElementsByClassName(elementClass);
+            for (var i = 0; i < elements.length; i++) {
+                if (status === 'cropped') {
+                    elements[i].classList.add('cropped-status');
+                    elements[i].classList.remove('uncropped-status');
+                    elements[i].innerHTML = 'Cropped';
+                } else {
+                    elements[i].classList.add('uncropped-status');
+                    elements[i].classList.remove('cropped-status');
+                    elements[i].innerHTML = 'Uncropped';
+                }
+            }
+
+            // Send AJAX request to update farm status in database
+            fetch('/update_farm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: farmId,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Function to add farm card dynamically
+        function addFarmCard() {
+            var farmSection = document.getElementById('farm-section');
+            var newFarmCard = document.createElement('div');
+            newFarmCard.classList.add('farm-card');
+
+            var farmName = prompt('Enter farm name:');
+            var farmStatus = prompt('Enter farm status (e.g., cropped or uncropped):');
+
+            var farmTitle = document.createElement('h3');
+            farmTitle.textContent = farmName;
+
+            var farmStatusPara = document.createElement('p');
+            farmStatusPara.textContent = farmStatus;
+
+            newFarmCard.appendChild(farmTitle);
+            newFarmCard.appendChild(farmStatusPara);
+
+            farmSection.appendChild(newFarmCard);
+
+            // Send AJAX request to update farm details in database
+            fetch('/update_farm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: farmName,
+                    status: farmStatus
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

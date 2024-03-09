@@ -1,0 +1,134 @@
+<!-- frontend/templates/crop.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Crop Management</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/crop.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Crop Management</h1>
+
+    <!-- Crop Table -->
+    <table class="crop-table" id="crop-table">
+      <thead>
+        <tr>
+          <th>Crop Name</th>
+          <th>Soil Preparation</th>
+          <th>Sowing of Seeds</th>
+          <th>Irrigation</th>
+          <th>Manure, Pesticides, Fertilizers</th>
+          <th>Harvesting</th>
+          <th>Sent for Storage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Populate with crop data -->
+        <tr>
+          <td id="crop-name" contenteditable="true"></td>
+          <td class="status-cell" id="soil-preparation">
+            <select onchange="updateStatus(this.value, 'soil-preparation')">
+              <option value="not-done" selected>Not Done</option>
+              <option value="done">Done</option>
+            </select>
+          </td>
+          <td class="status-cell" id="seeds-sowing">
+            <select onchange="updateStatus(this.value, 'seeds-sowing')">
+              <option value="not-done" selected>Not Done</option>
+              <option value="done">Done</option>
+            </select>
+          </td>
+          <td class="status-cell" id="irrigation">
+            <select onchange="updateStatus(this.value, 'irrigation')">
+              <option value="not-done" selected>Not Done</option>
+              <option value="done">Done</option>
+            </select>
+          </td>
+          <td class="status-cell" id="manure-pesticides">
+            <select onchange="updateStatus(this.value, 'manure-pesticides')">
+              <option value="not-done" selected>Not Done</option>
+              <option value="done">Done</option>
+            </select>
+          </td>
+          <td class="status-cell" id="harvesting">
+            <select onchange="updateStatus(this.value, 'harvesting')">
+              <option value="not-done" selected>Not Done</option>
+              <option value="done">Done</option>
+            </select>
+          </td>
+          <td class="status-cell" id="storage">
+            <select onchange="updateStatus(this.value, 'storage')">
+              <option value="not-done" selected>Not Done</option>
+              <option value="done">Done</option>
+            </select>
+          </td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+
+    <!-- Button to add more crop rows -->
+    <button onclick="addCropRow()">Add Crop</button>
+
+    <script>
+      function updateStatus(status, elementId) {
+          var statusCell = document.getElementById(elementId);
+          statusCell.classList.remove('status-done', 'status-not-done');
+          if (status === 'done') {
+              statusCell.classList.add('status-done');
+          } else if (status === 'not-done') {
+              statusCell.classList.add('status-not-done');
+          }
+          statusCell.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+      }
+
+      // Function to add crop row dynamically
+      function addCropRow() {
+        var cropTable = document.getElementById("crop-table");
+        var newRow = cropTable.insertRow();
+        newRow.innerHTML = `
+                <td contenteditable="true"></td>
+                <td class="status-cell" id="soil-preparation">
+                    <select onchange="updateStatus(this.value, 'soil-preparation')">
+                        <option value="not-done" selected>Not Done</option>
+                        <option value="done">Done</option>
+                    </select>
+                </td>
+                <td class="status-cell" id="seeds-sowing">
+                    <select onchange="updateStatus(this.value, 'seeds-sowing')">
+                        <option value="not-done" selected>Not Done</option>
+                        <option value="done">Done</option>
+                    </select>
+                </td>
+                <td class="status-cell" id="irrigation">
+                    <select onchange="updateStatus(this.value, 'irrigation')">
+                        <option value="not-done" selected>Not Done</option>
+                        <option value="done">Done</option>
+                    </select>
+                </td>
+                <td class="status-cell" id="manure-pesticides">
+                    <select onchange="updateStatus(this.value, 'manure-pesticides')">
+                        <option value="not-done" selected>Not Done</option>
+                        <option value="done">Done</option>
+                    </select>
+                </td>
+                <td class="status-cell" id="harvesting">
+                    <select onchange="updateStatus(this.value, 'harvesting')">
+                        <option value="not-done" selected>Not Done</option>
+                        <option value="done">Done</option>
+                    </select>
+                </td>
+                <td class="status-cell" id="storage">
+                    <select onchange="updateStatus(this.value, 'storage')">
+                        <option value="not-done" selected>Not Done</option>
+                        <option value="done">Done</option>
+                    </select>
+                </td>
+            `;
+      }
+    </script>
+  </body>
+</html>

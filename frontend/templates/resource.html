@@ -1,0 +1,78 @@
+<!-- frontend/templates/resource.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resource Tracking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resource.css') }}">
+</head>
+<body>
+    <h1>Resource Tracking</h1>
+    
+    <!-- Resource Cards -->
+    <div class="resource-section" id="resource-section">
+        <!-- Resource Card 1 -->
+        <div class="resource-card">
+            <h3>Tractor</h3>
+            <p id="tractor-usage">Usage: 10 hours</p>
+        </div>
+        
+        <!-- Resource Card 2 -->
+        <div class="resource-card">
+            <h3>Chemical A</h3>
+            <p id="chemical-a-quantity">Quantity: 5 liters</p>
+        </div>
+        <!-- Add more resource cards as needed -->
+    </div>
+
+    <!-- Button to add more resource cards -->
+    <button onclick="addResourceCard()">Add Resource</button>
+
+    <!-- JavaScript for resource tracking -->
+    <script>
+        // Function to update resource details
+        function updateResourceDetails(detail, elementId, value) {
+            document.getElementById(elementId).innerHTML = value;
+        }
+
+        // Example: Call updateResourceDetails function to update resource details
+        updateResourceDetails('usage', 'tractor-usage', '15 hours'); // Update tractor usage to '15 hours'
+
+        // Function to add resource card dynamically
+        function addResourceCard() {
+            var resourceSection = document.getElementById('resource-section');
+            var newResourceCard = document.createElement('div');
+            newResourceCard.classList.add('resource-card');
+
+            var resourceName = prompt('Enter resource name:');
+            var resourceDetail = prompt('Enter resource detail (e.g., Quantity: 10 liters):');
+
+            var resourceTitle = document.createElement('h3');
+            resourceTitle.textContent = resourceName;
+
+            var resourceDetailPara = document.createElement('p');
+            resourceDetailPara.textContent = resourceDetail;
+
+            newResourceCard.appendChild(resourceTitle);
+            newResourceCard.appendChild(resourceDetailPara);
+
+            resourceSection.appendChild(newResourceCard);
+
+            // Send AJAX request to update resource details in database
+            fetch('/update_resource', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: resourceName,
+                    detail: resourceDetail
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
